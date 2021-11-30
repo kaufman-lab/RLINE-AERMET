@@ -5,47 +5,36 @@
 #' @param upper_air_wban WBAN identifier for upper air data 
 #' @param folder_name name for the folder that stores data
 #' @examples
-#' get_air_dat (year = 2009, isd_wban = 54829, upper_air_wba= 53823)
+#' get_air_dat (year = 2009, isd_wban = 54829, upper_air_wban = 53823)
 #' 
+#' 
+
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)!=3) {
+  stop("Three arguments must be supplied (year, WBAN identifier for 
+       surface data and WBAN identifier for upper air data ", call.=FALSE)
+} 
+
 get_air_dat <- function(year, isd_wban, upper_air_wban, folder_name = 'air_dat') {
 
-### load libraries (install them if in singularity environment)
 
-library(tidyverse)
-library(rstudioapi)
-
+  
 ### get the directory of the scripts and set it as working directory
-getCurrentFileLocation <-  function()
-{
-  this_file <- commandArgs() %>% 
-    tibble::enframe(name = NULL) %>%
-    tidyr::separate(col=value, into=c("key", "value"), sep="=", fill='right') %>%
-    dplyr::filter(key == "--file") %>%
-    dplyr::pull(value)
-  if (length(this_file)==0)
-  {
-    this_file <- rstudioapi::getSourceEditorContext()$path
-  }
-  return(dirname(this_file))
-}
-
-script.dir <- getCurrentFileLocation()
 
 
 ### prepare reference table for data 
-setwd(script.dir)
 system(paste0('mkdir -p ',folder_name,sep=''))
-
+script.dir <- getwd()
 setwd(paste0(script.dir,'/',folder_name,sep=''))
 
-
-isd_ref <- read_csv('https://raw.githubusercontent.com/kaufman-lab/AERMET/main/station_list/isd_ref.csv')
-upper_air_ref<- read_csv('https://raw.githubusercontent.com/kaufman-lab/AERMET/main/station_list/upper_air_ref.csv')
+isd_ref <- read.csv('https://raw.githubusercontent.com/kaufman-lab/AERMET/main/station_list/isd_ref.csv')
+upper_air_ref<- read.csv('https://raw.githubusercontent.com/kaufman-lab/AERMET/main/station_list/upper_air_ref.csv')
 
 ### get upper air data from github release 
 
 system (paste0('wget --no-check-certificate ', 
-               'https://github.com/kaufman-lab/AERMET/releases/download/v1.0.0/raob_soundings_',
+               'https://github.com/kaufman-lab/AERMET/releases/latest/download/raob_soundings_',
                upper_air_wban,'_1991_2020.txt',sep=''))
 
 
@@ -59,3 +48,7 @@ system (paste0('wget --no-check-certificate ',
                sep=''))
 
 }
+
+# get_air_dat (year = 2009, isd_wban = 54829, upper_air_wban = 53823) 
+# Rscript --vanilla get_surf_up_v2.R 2009 54829 53823
+get_air_dat (year = args[1], isd_wban = args[2], upper_air_wban= args[3])
