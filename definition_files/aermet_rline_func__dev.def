@@ -63,7 +63,6 @@ sh compile.sh
 cd ../../RLINE/RLINE_source
 sh MAKE_gfortran.sh
 
-
 %environment
 export PATH=/opt/rh/devtoolset-8/root/bin:$PATH #should make gcc command work
 export LD_LIBRARY_PATH=/opt/rh/devtoolset-8/root/lib/gcc/x86_64-redhat-linux:$LD_LIBRARY_PATH #hopefully add libraries like libgfortran
