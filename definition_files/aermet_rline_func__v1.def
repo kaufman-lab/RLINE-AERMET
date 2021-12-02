@@ -23,7 +23,8 @@ scl enable devtoolset-8 -- bash
 dnf install -y epel-release
 yum install -y R
 
-#specify CRAN mirror 
+#specify CRAN mirror
+export R_HOME="/usr/lib64/R"
 echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/all/__linux__/centos7/2021-10-01+Y3JhbiwyOjQ1MjYyMTU7NDJGRDU3MTc'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
 Rscript -e 'install.packages(c("data.table"))'
@@ -69,3 +70,4 @@ sh MAKE_gfortran.sh
 %environment
 export PATH=/opt/rh/devtoolset-8/root/bin:$PATH #should make gcc command work
 export LD_LIBRARY_PATH=/opt/rh/devtoolset-8/root/lib/gcc/x86_64-redhat-linux:$LD_LIBRARY_PATH #hopefully add libraries like libgfortran
+export R_HOME="/usr/lib64/R"
