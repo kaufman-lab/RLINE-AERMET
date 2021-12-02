@@ -2,6 +2,12 @@ Bootstrap: docker
 From: centos:7.6.1810
 Stage: build
 
+
+%files
+/aermet_source.zip
+/get_surf_up.R
+/compile.sh
+
 %post
 
 # install packages
@@ -12,11 +18,6 @@ yum install -y glibc-static
 yum install -y centos-release-scl
 yum install -y devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
 scl enable devtoolset-8 -- bash
-
-# install gh
-dnf install -y 'dnf-command(config-manager)'
-dnf config-manager  --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-dnf install -y gh
 
 # install R
 dnf install -y epel-release
@@ -31,16 +32,13 @@ mkdir build
 cd build
 
 # download AERMET executable and compiler
-wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/aermet_source.zip?raw=true
-mv aermet_source.zip\?raw\=true aermet_source.zip
+mv /aermet_source.zip aermet_source.zip
 unzip aermet_source.zip
 
-wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/compile.sh?raw=true
-mv compile.sh\?raw\=true compile.sh
+mv /compile.sh compile.sh
 
 # download helper function for downloading air data
-wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/get_surf_up.R?raw=true
-mv get_surf_up.R\?raw\=true get_surf_up.R
+mv /get_surf_up.R get_surf_up.R
 
 
 
