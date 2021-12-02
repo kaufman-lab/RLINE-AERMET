@@ -1,0 +1,69 @@
+Bootstrap: docker
+From: centos:7.6.1810
+Stage: build
+
+%post
+
+# install packages
+yum install -y dnf
+yum install -y wget
+yum install -y unzip
+yum install -y glibc-static
+yum install -y centos-release-scl
+yum install -y devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran
+scl enable devtoolset-8 -- bash
+
+# install gh
+dnf install -y 'dnf-command(config-manager)'
+dnf config-manager  --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+dnf install -y gh
+
+# install R
+dnf install -y epel-release
+yum install -y R
+
+mkdir aermet_demo
+mkdir RLINE
+
+cd aermet_demo
+
+mkdir build
+cd build
+
+# download AERMET executable and compiler
+wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/aermet_source.zip?raw=true
+mv aermet_source.zip\?raw\=true aermet_source.zip
+unzip aermet_source.zip
+
+wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/compile.sh?raw=true
+mv compile.sh\?raw\=true compile.sh
+
+# download helper function for downloading air data
+wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/get_surf_up.R?raw=true
+mv get_surf_up.R\?raw\=true get_surf_up.R
+
+
+
+cd ../../RLINE
+# download RLINE executable and compiler
+wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/RLINE_source.zip?raw=true
+mv RLINE_source.zip\?raw\=true RLINE_source.zip
+unzip RLINE_source.zip
+
+
+cd ../aermet_demo/build
+
+# compile aermet executable
+export PATH=/opt/rh/devtoolset-8/root/bin:$PATH #should make gcc command work
+export LD_LIBRARY_PATH=/opt/rh/devtoolset-8/root/lib/gcc/x86_64-redhat-linux:$LD_LIBRARY_PATH #hopefully add libraries like libgfortran
+
+sh compile.sh
+
+# compile RLINE executable
+cd ../../RLINE/RLINE_source
+sh MAKE_gfortran.sh
+
+
+%environment
+export PATH=/opt/rh/devtoolset-8/root/bin:$PATH #should make gcc command work
+export LD_LIBRARY_PATH=/opt/rh/devtoolset-8/root/lib/gcc/x86_64-redhat-linux:$LD_LIBRARY_PATH #hopefully add libraries like libgfortran
