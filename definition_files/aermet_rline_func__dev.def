@@ -4,9 +4,9 @@ Stage: build
 
 
 %files
-/aermet_source.zip
-/get_surf_up.R
-/compile.sh
+./aermet_source.zip /aermet_source.zip
+./get_surf_up.R /get_surf_up.R
+./compile.sh /compile.sh
 
 %post
 
