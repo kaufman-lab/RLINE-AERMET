@@ -5,8 +5,10 @@ Stage: build
 
 %files
 ./aermet_source.zip /aermet_source.zip
-./get_surf_up.R /get_surf_up.R
+./helper_functions/get_surf_up.R /get_surf_up.R
+./helper_functions/xy_to_id.R /xy_to_id.R
 ./compile.sh /compile.sh
+./RLINE_source.zip /RLINE_source.zip
 
 %post
 
@@ -27,7 +29,7 @@ yum install -y R
 export R_HOME="/usr/lib64/R"
 echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/all/__linux__/centos7/2021-10-01+Y3JhbiwyOjQ1MjYyMTU7NDJGRDU3MTc'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
-Rscript -e 'install.packages(c("data.table"))'
+Rscript -e 'install.packages(c("geoshpere"))'
 
 mkdir aermet_demo
 mkdir RLINE
@@ -50,8 +52,7 @@ mv /get_surf_up.R get_surf_up.R
 
 cd ../../RLINE
 # download RLINE executable and compiler
-wget --no-check-certificate https://github.com/kaufman-lab/AERMET/blob/main/RLINE_source.zip?raw=true
-mv RLINE_source.zip\?raw\=true RLINE_source.zip
+mv /RLINE_source.zip RLINE_source.zip
 unzip RLINE_source.zip
 
 
