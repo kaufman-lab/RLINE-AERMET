@@ -29,7 +29,7 @@ yum install -y R
 export R_HOME="/usr/lib64/R"
 echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/all/__linux__/centos7/2021-10-01+Y3JhbiwyOjQ1MjYyMTU7NDJGRDU3MTc'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
-Rscript -e 'install.packages(c("geoshpere"))'
+Rscript -e 'install.packages(c("geosphere"))'
 
 mkdir aermet_demo
 mkdir RLINE
