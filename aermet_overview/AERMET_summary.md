@@ -7,7 +7,7 @@ This document describes the procedure of running AERMET and details the data sou
 
 The following flow chart summarizes steps for AERMET. There are three major stages and each of the stages will be run separately. After gathering the required data, we will form a command line file for each of the stages. AERMET will produce report that indicates whether the process is successfully implemented. In the end, we will have the .met file serves as the input for RLINE.
 
-![a pic](aermet_flow.JPG)
+![a pic](/aermet_flow.JPG)
 
 ### 2. Input for AERMET
 
