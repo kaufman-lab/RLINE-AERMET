@@ -278,19 +278,83 @@ Singularity> view LA_TEST_S3.RPT
 
 ## 4. Implementation of RLINE in Linux
 
+
+Similarly, we create a local directory on the host. 
+
 ```
 Singularity> mkdir rline_testrun
 Singularity> cd rline_testrun
 
 ```
 
+Then we move the RLINE source file. Note that in this example, we predict the emission coming from A1 road in LA during 2010. But data for the example 1 in RLINE official documentation is also contained in this directory. One might try it out directly (without moving or modifying any file). 
+
 ```
 Singularity> cp /RLINE/RLINE_source/ -r RLINE_source
+Singularity> cd RLINE_source
+
+```
+
+And we move AERMET processed meteorological data to the directory. 
+```
 Singularity> cp ../../aermet_testrun/LA_TEST_MP.SFC Met_Example.sfc
 ```
 
+Or alternatively, we could download the .sfc file from github repo, which is same as the output from our earlier AERMET example.  
+
+```
+
+Singularity> wget --no-check-certificate https://github.com/kaufman-lab/
+AERMET/blob/main/RLINE_example/Met_Example.sfc?raw\=true
+
+Singularity> mv Met_Example.sfc?raw\=true Met_Example.sfc
+
+```
 
 
-get example prediction locations and source data
+Then we get example prediction locations and source data from github repo.
+
+```
+
+Singularity> wget --no-check-certificate https://github.com/kaufman-lab/
+AERMET/blob/main/RLINE_example/Source_Example.txt?raw\=true
+
+Singularity> mv Source_Example.txt?raw\=true Source_Example.txt
+
+
+```
+
+```
+
+Singularity> wget --no-check-certificate https://github.com/kaufman-lab/
+AERMET/blob/main/RLINE_example/Receptor_Example.txt?raw\=true
+
+Singularity> mv Receptor_Example.txt?raw\=true Receptor_Example.txt
+
+
+```
+
+
+We also get the procedure file. This almost remains unchanged from the fist official example from RLINE. We only change the option for using analytical solution (the default is to use numerical). According to the documentation of RLINE, numerical solution is a bit more accurate but much more computationally expensive. Give the amount of data in our example, we opt for analytical solution.
+
+```
+
+Singularity> wget --no-check-certificate https://github.com/kaufman-lab/
+AERMET/blob/main/RLINE_example/Line_Source_Inputs.txt?raw\=true
+
+Singularity> mv Line_Source_Inputs.txt?raw\=true Line_Source_Inputs.txt
+
+
+```
+
+
+To obtain the results, we simply run the executable. The results will then be stored in the same directory as .csv files.
+
+```
+
+Singularity>  ./rline_out.out
+
+
+```
 
 
