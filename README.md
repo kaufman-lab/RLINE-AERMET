@@ -29,7 +29,7 @@ First create a local directory on the host, then download the most recent versio
 [yunhanwu@deohs-brain ~]$ mkdir aermet_testrun
 [yunhanwu@deohs-brain ~]$ cd aermet_testrun
 
-[yunhanwu@deohs-brain aermet_testrun]$ singularity shell oras://ghcr.io/kaufman-lab/aermet_rline_func:dev
+[yunhanwu@deohs-brain aermet_testrun]$ singularity shell --containall oras://ghcr.io/kaufman-lab/aermet_rline_func:dev
 ```
 
 To access the files from the image, we need to use '/' before specifying the directory. For example, the following command could be used to check files within the singularity image.  The executables for AERMET and RLINE are stored in their corresponding folders. 
